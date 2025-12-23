@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: django
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: django
+    spec:
+      containers:
+      - name: django-container
+        image: django_app:latest
+        imagePullPolicy: Never
+        env:
+        - name: DEBUG
+          value: "True"
+        ports:
+        - containerPort: 80
+
