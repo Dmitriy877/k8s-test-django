@@ -75,3 +75,35 @@ $ docker compose build web
 `ALLOWED_HOSTS` -- настройка Django со списком разрешённых адресов. Если запрос прилетит на другой адрес, то сайт ответит ошибкой 400. Можно перечислить несколько адресов через запятую, например `127.0.0.1,192.168.0.1,site.test`. [Документация Django](https://docs.djangoproject.com/en/3.2/ref/settings/#allowed-hosts).
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
+
+
+## Как задать секретные значения для использования kubernetes
+
+В каталоге deployment создать файл secrets.yml следующего содержания
+
+```sh
+apiVersion: v1
+# ТИП
+kind: Secret
+metadata:
+  # Имя сервиса
+  name: secrets
+  # Тип по умалчанию для secrets булевой переменной
+type: Opaque
+data:
+  # Значение должно быть в формате base 64 ( True(VHJ1ZQ=), False(RmFsc2U=))
+  DEBUG: VHJ1ZQ= 
+```
+Кодирование строки в base 64 POWERSHELL (Windows)
+`[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("True"))`
+
+Дескодирование строки base 64 POWERSHELL (Windows)
+`[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("VHJ1ZQ=="))`
+
+Кодирование строки в base 64 (unix)
+`echo -n "True" | base64`
+
+Декодирование строки base 64 (unix)
+`echo "VHJ1ZQ==" | base64 -d`
+
+
