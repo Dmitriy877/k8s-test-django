@@ -30,9 +30,9 @@ spec:
 # Брать образ локально
         imagePullPolicy: Never
 #Переменные для разработки
-        env:
-        - name: DEBUG
-          value: "True"
+        envFrom:
+          - secretRef:
+              name: secrets
 # Открываем порты
         ports:
         - containerPort: 80
