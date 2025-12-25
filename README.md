@@ -79,6 +79,7 @@ $ docker compose build web
 
 ## Как задать секретные значения для использования kubernetes
 
+
 В каталоге deployment создать файл secrets-project.yml следующего содержания
 
 ```sh
@@ -90,23 +91,73 @@ metadata:
   name: secrets
   # Тип по умалчанию для secrets булевой переменной
 type: Opaque
-data:
-  # Значение должно быть в формате base 64 ( True(VHJ1ZQ=), False(RmFsc2U=))
-  DEBUG: VHJ1ZQ= 
+stringData:
+  # Debug режим
+  DEBUG: "True"
+  # Хосты на которых джанго будет работать
+  ALLOWED_HOSTS: ""
 ```
-Кодирование строки в base 64 POWERSHELL (Windows)
-`[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("True"))`
-
-Дескодирование строки base 64 POWERSHELL (Windows)
-`[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("VHJ1ZQ=="))`
-
-Кодирование строки в base 64 (unix)
-`echo -n "True" | base64`
-
-Декодирование строки base 64 (unix)
-`echo "VHJ1ZQ==" | base64 -d`
 
 Выполнить команду для создания secret
 `kubectl apply -f secret.yaml`
+
+Выполнить команду для создания pods и deployment
+```sh
+kubectl apply -f ./deployment.yaml
+```
+
+Выполнить команду для создания service
+```sh
+kubectl apply -f ./django-service.yaml
+```
+
+Зайти в файл hosts:
+
+Windows `C:\Windows\System32\drivers\etc\hosts`
+
+MacOs `/private/etc/hosts`
+
+Linux (Ubuntu, Debian, CentOS и др.) `/etc/hosts`
+
+Прописать строчку для опредtлния dns, например;
+
+```sh
+127.0.0.1 star-burger.test
+```
+
+Выполнить команду для запуска ingress
+```sh
+minikube addons enable ingress
+```
+
+Просмотреть что все запустилось
+```sh
+kubectl get pods -n ingress-nginx
+```
+
+!!! Важно. При запуске локально на windows и Mac необходимо выполнить команду
+```sh
+ minikube tunnel
+```
+
+Если прошлая команда не работает (бывает на Windows), то проборосить порт вручную
+```sh
+kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 80:80
+```
+
+Выполнить команду для создания ingress
+```sh
+kubectl apply -f ./ingress.yaml
+```
+
+Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
+
+
+
+
+
+
+
+
 
 
