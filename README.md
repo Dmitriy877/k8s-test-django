@@ -79,7 +79,7 @@ $ docker compose build web
 
 ## Как задать секретные значения для использования kubernetes
 
-В каталоге deployment создать файл secrets.yml следующего содержания
+В каталоге deployment создать файл secrets-project.yml следующего содержания
 
 ```sh
 apiVersion: v1
@@ -105,5 +105,8 @@ data:
 
 Декодирование строки base 64 (unix)
 `echo "VHJ1ZQ==" | base64 -d`
+
+Выполнить команду для создания secret
+`kubectl apply -f secret.yaml`
 
 
