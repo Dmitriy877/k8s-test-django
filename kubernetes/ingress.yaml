@@ -1,20 +1,32 @@
 apiVersion: networking.k8s.io/v1
+#
 kind: Ingress
 metadata:
+  # Имя ingress
   name: star-burger-ingress
   annotations:
     # Убирает проблему с путями, если Django ожидает запросы от корня /
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  # Указываем контроллер Ingress, который будет обрабатывать этот ресурс
   ingressClassName: nginx
+  # Определяем, как запросы будут перенаправляться на сервисы
   rules:
+  # Правило для конкретного домена
   - host: star-burger.test
     http:
       paths:
+        # Правило для всех путей, начинающихся с /
       - path: /
+        # Тип сопоставления пути: Prefix - префиксное совпадение
         pathType: Prefix
+        # Куда перенаправлять трафик
         backend:
+          # Используем Service для балансировки нагрузки
           service:
+            # Имя Service, который будет принимать трафик
             name: django-service
+            # Порт Service, на который перенаправлять
             port:
+              # Номер порта Service (это порт Service, не Pod!)
               number: 80
