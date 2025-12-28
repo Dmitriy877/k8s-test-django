@@ -152,6 +152,10 @@ kubectl apply -f ./ingress.yaml
 
 Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
 
+Выполнить команду для создания события очистки сессий Django по расписанию
+```
+kubectl apply -f ./django-clearsession.yaml
+```
 
 
 
