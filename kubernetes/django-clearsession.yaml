@@ -8,10 +8,14 @@ metadata:
 spec:
   # Расписание в формате cron
   schedule: '@monthly'
+  # Определяем время в течении которого должен быть запущен новый экземпляр задания
+  startingDeadlineSeconds: 15
   # Шаблон задания
   jobTemplate:
     # Шаблон Pod'а
     spec: 
+      # Время через которое завершенный jobs автоматически удалится
+      ttlSecondsAfterFinished: 60
       template:
         spec:
           containers:
