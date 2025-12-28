@@ -30,9 +30,41 @@ spec:
 # Брать образ локально
         imagePullPolicy: Never
 #Переменные для разработки
+        apiVersion: apps/v1
+# # Тип
+kind: Deployment
+metadata:
+# Название деплоймента
+  name: django-deployment
+  labels:
+#   # Имя приложения
+    app.kubernetes.io/name: django-deployment
+# # Спецификация
+spec:
+# Количество копий пода
+  replicas: 1
+ # С какими подами дплоймент будет работать
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: django
+#   # Создаем поды
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: django
+#     # Спецификация контейнера
+    spec:
+      containers:
+#Имя контейнера
+      - name: django-container
+# Имя образа
+        image: django_app:latest
+# Брать образ локально
+        imagePullPolicy: Never
+#Переменные для разработки
         envFrom:
           - secretRef:
-            name: secrets
+              name: secrets
 # Открываем порты
         ports:
         - containerPort: 80

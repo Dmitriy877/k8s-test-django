@@ -188,6 +188,18 @@ kubectl apply -f ./django-clearsession.yaml
 kubectl apply -f ./django-migrate.yaml
 ```
 
+Зарегистирировать суперпользователя
+
+Выполнить команду и найти под с джанго вида django-deployment...
+```sh
+kubectl exec -t pod_name -- sh
+```
+
+Выполнить команду создания суперпользователя
+```sh
+python manage.py createsuperuser
+```
+
 Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
 
 

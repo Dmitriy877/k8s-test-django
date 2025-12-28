@@ -28,8 +28,8 @@ spec:
       # Искать образ локально
       imagePullPolicy: Never
       envFrom:
-        - secretRef:
-          name: secrets
+          - secretRef:
+              name: secrets
       # Открываем порт
       ports: 
         - containerPort: 80
