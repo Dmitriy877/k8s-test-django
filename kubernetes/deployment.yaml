@@ -32,7 +32,7 @@ spec:
 #Переменные для разработки
         envFrom:
           - secretRef:
-              name: secrets
+            name: secrets
 # Открываем порты
         ports:
         - containerPort: 80

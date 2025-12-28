@@ -77,8 +77,32 @@ $ docker compose build web
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
 
 
-## Как задать секретные значения для использования kubernetes
+## Запуск проекта локально с помощью kubernetes
 
+Перейти в каталог deployment
+
+Установить [helm](https://helm.sh/)
+
+Создать файл `db-secrets.yaml`
+
+```sh
+# Одиночная ДБ, без репликаций
+architecture: "standalone"
+
+# Параметры аутентификации
+auth:
+    # Имя пользователя
+    username: "admin"
+    # Пароль пользователя
+    password: "admin"
+    # Имя базы данных
+    database: "django"
+```
+
+Выполнить команду установки postgresql в minikube
+```sh
+helm install postgres-db oci://registry-1.docker.io/bitnamicharts/postgresql -f db-secrets.yaml
+```
 
 В каталоге deployment создать файл secrets-project.yml следующего содержания
 
@@ -96,6 +120,10 @@ stringData:
   DEBUG: "True"
   # Хосты на которых джанго будет работать
   ALLOWED_HOSTS: ""
+  # Секретный ключ Django проекта
+  SECRET_KEY: ""
+  # Ссылка к базе данных (Использовать значения из db-secrets.yaml)
+  DATABASE_URL: "DATABASE_URL: "postgresql://имя_пользователя:пароль@postgres-db-postgresql/имя_бд""
 ```
 
 Выполнить команду для создания secret
@@ -159,7 +187,6 @@ kubectl apply -f ./django-clearsession.yaml
 ```sh
 kubectl apply -f ./django-migrate.yaml
 ```
-
 
 Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
 

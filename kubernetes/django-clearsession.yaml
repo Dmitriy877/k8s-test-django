@@ -28,6 +28,9 @@ spec:
             # Искать образ локально
               imagePullPolicy: Never
             # Открываем порт
+              envFrom:
+                - secretRef:
+                  name: secrets
               ports: 
                 - containerPort: 80
           # Когда перезапускать контейнер

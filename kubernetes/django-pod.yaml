@@ -27,6 +27,9 @@ spec:
       image: django_app:latest
       # Искать образ локально
       imagePullPolicy: Never
+      envFrom:
+        - secretRef:
+          name: secrets
       # Открываем порт
       ports: 
         - containerPort: 80

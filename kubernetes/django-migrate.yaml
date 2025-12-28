@@ -20,5 +20,8 @@ spec:
           command: ["python", "manage.py", "migrate", "--noinput"]
         # Искать образ локально
           imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+              name: secrets
       # Когда перезапускать контейнер
       restartPolicy: OnFailure
