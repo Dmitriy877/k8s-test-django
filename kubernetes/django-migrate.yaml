@@ -16,8 +16,8 @@ spec:
         - name : django-migrate
         # Образ из которого запускать контейнер
           image: django_app:latest
-        # Команда для выполнения в контейнере
-          command: ["python", "manage.py", "migrate"]
+        # Команда для выполнения в контейнере (С отключенным интерактивным вводом)
+          command: ["python", "manage.py", "migrate", "--noinput"]
         # Искать образ локально
           imagePullPolicy: Never
       # Когда перезапускать контейнер

@@ -150,12 +150,18 @@ kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 80:80
 kubectl apply -f ./ingress.yaml
 ```
 
-Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
-
 Выполнить команду для создания события очистки сессий Django по расписанию
-```
+```sh
 kubectl apply -f ./django-clearsession.yaml
 ```
+
+Ввыполнить команду для применения миграций
+```sh
+kubectl apply -f ./django-migrate.yaml
+```
+
+
+Сайт запуститься и будет доступен по адресу `http://star-burger.test/`
 
 
 
