@@ -1,0 +1,24 @@
+apiVersion :  batch/v1
+# Тип
+kind: Job
+metadata:
+  # Имя job'а
+  name: django-migrate
+  # Марки для приложения
+spec:
+  # Время через которое завершенный jobs автоматически удалится
+  ttlSecondsAfterFinished: 60
+  # Шаблон Pod'а
+  template:
+    spec:
+      containers:
+        # Описываем контейнеры в Pod'е
+        - name : django-migrate
+        # Образ из которого запускать контейнер
+          image: django_app:latest
+        # Команда для выполнения в контейнере
+          command: ["python", "manage.py", "migrate"]
+        # Искать образ локально
+          imagePullPolicy: Never
+      # Когда перезапускать контейнер
+      restartPolicy: OnFailure
